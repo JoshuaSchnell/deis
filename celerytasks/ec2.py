@@ -159,6 +159,14 @@ def converge_node(node_id, ssh_username, fqdn, ssh_private_key,
     return output, rc
 
 
+@task(name='ec2.run_node')
+def run_node(node_id, ssh_username, fqdn, ssh_private_key, command):
+    ssh = util.connect_ssh(ssh_username, fqdn, 22, ssh_private_key)
+    command = "docker run {}".format(command)
+    output, rc = util.exec_ssh(ssh, command)
+    return output, rc
+
+
 # utility functions
 
 def create_ec2_connection(region, access_key, secret_key):

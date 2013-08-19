@@ -150,6 +150,12 @@ class FormationTest(TestCase):
         response = self.client.post(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, FAKE_LOG_DATA)
+        # test run
+        url = '/api/formations/{formation_id}/run'.format(**locals())
+        body = {'commands': 'ls -al'}
+        response = self.client.post(url, json.dumps(body), content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        self.assertIn('drwxr-xr-x', response.data)
 
 
 FAKE_LOG_DATA = """
